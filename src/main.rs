@@ -6,16 +6,9 @@ use std::io::Write;
 
 
 
-fn get_current_working_dir() -> String {
-    let res = env::current_dir();
-    match res {
-        Ok(path) => path.into_os_string().into_string().unwrap(),
-        Err(_) => "FAILED".to_string()
-    }
-}
 
 fn rvcs_exists() -> bool {
-    let cur_path = get_current_working_dir();
+    let cur_path = mlib::get_current_working_dir();
 
     let new_path = format!("{}/.rvcs", cur_path);
 
@@ -24,7 +17,7 @@ fn rvcs_exists() -> bool {
 
 fn new() {
 
-    let cur_path = get_current_working_dir();
+    let cur_path = mlib::get_current_working_dir();
 
     let new_path = format!("{}/.rvcs", cur_path);
 
@@ -51,7 +44,7 @@ fn new() {
 }
 
 fn get_rvcs_path() -> String {
-    let cur_path = get_current_working_dir();
+    let cur_path = mlib::get_current_working_dir();
 
     let new_path = format!("{}/.rvcs", cur_path);
 
@@ -79,13 +72,15 @@ fn add_file(file: &String) {
 
 fn commit(args: Vec<String>){
 
-    let mut message = String::new();
+    // let mut message = String::new();
 
     if rvcs_exists() == false {
         println!("RVCS not initialized");
         println!("Run 'rvcs new' to initialize");
         return;
     }
+
+    let message: String;
 
     if args.len() > 3 &&  &args[2] == "-m"{
         message = args[3].clone();

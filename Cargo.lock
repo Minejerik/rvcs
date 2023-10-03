@@ -27,9 +27,9 @@ checksum = "9cdc71e17332e86d2e1d38c1f99edcb6288ee11b815fb1a4b049eaa2114d369b"
 
 [[package]]
 name = "mlib"
-version = "0.1.0"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a270063fb2a2055b51f8a5a667edaecd945ed600f7dd598e44e9ac43dd81fa87"
+checksum = "14cb7ccc34b3fa6b90aa4a0bffbb3402c884b9ac38708b98f918af5bc20de710"
 dependencies = [
  "rand",
 ]
