@@ -2,7 +2,8 @@ use std::env;
 use std::path::Path;
 use std::fs;
 use std::io::Write;
-use rand::{distributions::Alphanumeric, Rng};
+
+pub mod mlib;
 
 fn get_current_working_dir() -> String {
     let res = env::current_dir();
@@ -93,13 +94,17 @@ fn commit(args: Vec<String>){
 
     let rvcs_path = get_rvcs_path();
 
-    let s: String = rand::thread_rng()
-    .sample_iter(&Alphanumeric)
-    .take(5)
-    .map(char::from)
-    .collect();
+    let s: String = mlib::gen_random_string(5);
 
-    println!("{}", s);
+    // println!("{}", s);
+
+    let commit_path = format!("{}/objects/{}", rvcs_path, s);
+
+    mlib::mkdir(commit_path.clone());
+
+    let temp_path = format!("{}/COMMIT_DATA", commit_path);
+
+    mlib::make_and_write_file(temp_path, message);
 
 }
 
