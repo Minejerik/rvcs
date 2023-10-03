@@ -2,6 +2,7 @@ use std::env;
 use std::path::Path;
 use std::fs;
 use std::io::Write;
+use rand::{distributions::Alphanumeric, Rng};
 
 fn get_current_working_dir() -> String {
     let res = env::current_dir();
@@ -74,13 +75,41 @@ fn add_file(file: &String) {
     temp_file.write(format!("{}\n", file).as_bytes()).unwrap();
 }
 
+fn commit(args: Vec<String>){
+
+    let mut message = String::new();
+
+    if rvcs_exists() == false {
+        println!("RVCS not initialized");
+        println!("Run 'rvcs new' to initialize");
+        return;
+    }
+
+    if args.len() > 3 &&  &args[2] == "-m"{
+        message = args[3].clone();
+    } else {
+        message = "".to_string();
+    }
+
+    let rvcs_path = get_rvcs_path();
+
+    let s: String = rand::thread_rng()
+    .sample_iter(&Alphanumeric)
+    .take(5)
+    .map(char::from)
+    .collect();
+
+    println!("{}", s);
+
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
 
     if &args[1] == "new" {
         new();
     } else if &args[1] == "commit" {
-        println!("build");
+        commit(args);
     } else if &args[1] == "add"{
         add_file(&args[2]);
     }
