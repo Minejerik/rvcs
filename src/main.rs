@@ -1,6 +1,7 @@
 use std::env;
 use std::path::Path;
 use std::fs;
+use std::io::Write;
 
 fn get_current_working_dir() -> String {
     let res = env::current_dir();
@@ -38,6 +39,12 @@ fn new() {
         Err(_) => println!("Error creating RVCS")
     }
 
+    let mut file = fs::File::create(format!("{}/.rvcs/TRACKED", cur_path)).unwrap();
+
+    file.write_all(b"").unwrap();
+
+    let _ = fs::create_dir(format!("{}/.rvcs/objects", cur_path));
+   
 }
 
 fn get_rvcs_path() -> String {
@@ -54,8 +61,17 @@ fn add_file(file: &String) {
         println!("Run 'rvcs new' to initialize");
         return;
     }
-    
+
     let rvcs_path = get_rvcs_path();
+
+
+    let mut temp_file = fs::OpenOptions::new()
+        .write(true)
+        .append(true)
+        .open(format!("{}/TRACKED", rvcs_path))
+        .unwrap();
+
+    temp_file.write(format!("{}\n", file).as_bytes()).unwrap();
 }
 
 fn main() {
@@ -69,5 +85,4 @@ fn main() {
         add_file(&args[2]);
     }
 
-    println!("args: {:?}", args);
 }
