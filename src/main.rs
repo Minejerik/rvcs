@@ -1,9 +1,10 @@
 use std::env;
 use std::path::Path;
 use std::fs;
+use mlib::mlib;
 use std::io::Write;
 
-pub mod mlib;
+
 
 fn get_current_working_dir() -> String {
     let res = env::current_dir();
