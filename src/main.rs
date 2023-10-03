@@ -10,9 +10,15 @@ fn get_current_working_dir() -> String {
     }
 }
 
+fn rvcs_exists() -> bool {
+    let cur_path = get_current_working_dir();
+
+    let new_path = format!("{}/.rvcs", cur_path);
+
+    Path::new(&new_path).exists()
+}
 
 fn new() {
-
 
     let cur_path = get_current_working_dir();
 
@@ -32,9 +38,24 @@ fn new() {
         Err(_) => println!("Error creating RVCS")
     }
 
+}
 
+fn get_rvcs_path() -> String {
+    let cur_path = get_current_working_dir();
 
+    let new_path = format!("{}/.rvcs", cur_path);
 
+    new_path
+}
+
+fn add_file(file: &String) {
+    if rvcs_exists() == false {
+        println!("RVCS not initialized");
+        println!("Run 'rvcs new' to initialize");
+        return;
+    }
+    
+    let rvcs_path = get_rvcs_path();
 }
 
 fn main() {
@@ -44,6 +65,8 @@ fn main() {
         new();
     } else if &args[1] == "commit" {
         println!("build");
+    } else if &args[1] == "add"{
+        add_file(&args[2]);
     }
 
     println!("args: {:?}", args);
