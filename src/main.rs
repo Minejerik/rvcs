@@ -102,7 +102,21 @@ fn commit(args: Vec<String>){
 
     mlib::make_and_write_file(temp_path, message);
 
-    
+    let all_tracked = mlib::read_file(format!("{}/TRACKED", rvcs_path));
+
+    let tracked_files = all_tracked.split("\n");
+
+    for file in tracked_files {
+        if file == "" {
+            continue;
+        }
+
+        println!("{}", file);
+
+        let temp = mlib::read_file(file.to_string());
+
+        mlib::make_and_write_file(format!("{}/{}", commit_path, file), temp);
+    }
 
 }
 
