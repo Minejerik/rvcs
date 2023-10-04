@@ -102,6 +102,8 @@ fn commit(args: Vec<String>){
 
     mlib::make_and_write_file(temp_path, message);
 
+    
+
 }
 
 fn main() {
